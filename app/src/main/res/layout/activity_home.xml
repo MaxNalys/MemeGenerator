@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/appHeader"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:text="@string/app_name"
+        android:paddingTop="40dp"
+        android:textSize="@dimen/header_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/meme_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:text="@string/choose_meme"
+        android:textSize="@dimen/text_size"
+        android:paddingTop="@dimen/padding"
+android:paddingBottom="@dimen/padding"
+        app:layout_constraintBottom_toTopOf="@id/memes_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appHeader" />
+
+    <Spinner
+        android:id="@+id/memes_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meme_txt"
+       />
+
+    <TextView
+        android:id="@+id/top_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/choose_top_text"
+        android:textSize="@dimen/text_size"
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/memes_spinner" />
+
+
+    <EditText
+        android:id="@+id/top_editTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/choose_top_text"
+        android:inputType="text"
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_txt" />
+
+    <TextView
+        android:id="@+id/btm_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/choose_btm_text"
+        android:textSize="@dimen/text_size"
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_editTxt" />
+
+
+    <EditText
+        android:id="@+id/btm_editTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/choose_btm_text"
+        android:inputType="text"
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btm_txt" />
+
+    <Button
+        android:id="@+id/generate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"
+        android:text="@string/generate_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btm_editTxt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

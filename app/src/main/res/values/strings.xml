@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Meme Generator</string>
+    <string name="choose_meme">Choose a meme</string>
+    <string name="choose_btm_text">Choose bottom text</string>
+    <string name="choose_top_text">Choose top text</string>
+    <string name="generate_btn">Generate meme</string>
 </resources>
