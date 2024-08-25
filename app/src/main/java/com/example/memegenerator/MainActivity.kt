@@ -1,20 +1,22 @@
-package com.example.memegenerator;
+package com.example.memegenerator
 
-import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.memegenerator.R
-import com.example.memegenerator.api.RetrofitClient
-import com.example.memegenerator.model.Meme
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,41 +29,75 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Ініціалізація UI елементів
+        // Initialize UI elements
         spinner = findViewById(R.id.memes_spinner)
         topEditText = findViewById(R.id.top_editTxt)
         btmEditText = findViewById(R.id.btm_editTxt)
         generateButton = findViewById(R.id.generate_btn)
 
-        // Виклик API для отримання даних
+        // Fetch meme names
         RetrofitClient.api.getMemes().enqueue(object : Callback<List<String>> {
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                 if (response.isSuccessful) {
-                    val memes = response.body()
-                    Log.d("API Response", "Memes: $memes")  // Логування відповіді
-                    val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_item, memes ?: listOf())
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spinner.adapter = adapter
+                    val memeNames = response.body()
+                    if (memeNames != null) {
+                        val adapter = ArrayAdapter(
+                            this@MainActivity,
+                            android.R.layout.simple_spinner_item,
+                            memeNames
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinner.adapter = adapter
+                    } else {
+                        Log.e("API Error", "Response body is null")
+                    }
                 } else {
-                    Log.e("API Response", "Error: ${response.errorBody()}")
+                    Log.e("API Error", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                // Обробка помилки
-                Log.e("API Error", "Error: ${t.message}")
+                Log.e("API Error", "Failure: ${t.message}")
                 t.printStackTrace()
             }
         })
 
-        // Налаштування кнопки
+        // Set up button click listener
         generateButton.setOnClickListener {
-            val selectedMeme = spinner.selectedItem.toString()
+            val selectedMeme = spinner.selectedItem?.toString()
             val topText = topEditText.text.toString()
             val btmText = btmEditText.text.toString()
 
-            // Логіка для генерації мемів або інші дії
-            Log.d("Generate Button", "Selected Meme: $selectedMeme, Top Text: $topText, Bottom Text: $btmText")
+            if (selectedMeme != null) {
+                RetrofitClient.api.generateMeme(selectedMeme, topText, btmText).enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val inputStream = response.body()?.byteStream()
+                            val bitmap = BitmapFactory.decodeStream(inputStream)
+                            if (bitmap != null) {
+                                val intent = Intent(this@MainActivity, SecondActivity::class.java)
+                                // Convert bitmap to byte array to pass via intent
+                                val byteArrayOutputStream = ByteArrayOutputStream()
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                                val byteArray = byteArrayOutputStream.toByteArray()
+                                intent.putExtra("MEME_BITMAP", byteArray)
+                                startActivity(intent)
+                            } else {
+                                Log.e("API Error", "Failed to decode bitmap")
+                            }
+                        } else {
+                            Log.e("API Error", "Error: ${response.code()} - ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("API Error", "Failure: ${t.message}")
+                        t.printStackTrace()
+                    }
+                })
+            } else {
+                Log.e("Spinner Error", "No meme selected from spinner")
+            }
         }
     }
 }
