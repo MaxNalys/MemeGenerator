@@ -35,19 +35,26 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit2.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-    implementation(libs.github.glide)
-    implementation(libs.firebase.crashlytics.buildtools)
-    annotationProcessor(libs.glide.compiler)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation (libs.androidx.core.ktx.v1120)
+    implementation (libs.androidx.appcompat.v170)
+    implementation (libs.material.v190)
+    implementation (libs.androidx.constraintlayout)
+    implementation (libs.androidx.activity.ktx.v172)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+
+    // Retrofit and OkHttp
+    implementation (libs.retrofit)
+    implementation (libs.retrofit2.converter.gson)
+    implementation (libs.okhttp.v4100)
+    implementation (libs.logging.interceptor.v4100)
+
+    // Glide for image loading (if needed)
+    implementation (libs.github.glide)
+    annotationProcessor (libs.glide.compiler)
+
+    // Testing
+    testImplementation (libs.junit)
+    androidTestImplementation (libs.androidx.junit.v121)
+    androidTestImplementation (libs.androidx.espresso.core.v361)
 }
