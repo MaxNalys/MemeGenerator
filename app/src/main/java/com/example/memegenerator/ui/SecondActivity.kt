@@ -1,14 +1,11 @@
-package com.example.memegenerator
+// SecondActivity.kt
+package com.example.memegenerator.ui
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.memegenerator.R
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 class SecondActivity : AppCompatActivity() {
 
@@ -22,15 +19,11 @@ class SecondActivity : AppCompatActivity() {
 
         // Retrieve the byte array from intent and convert it to Bitmap
         val byteArray = intent.getByteArrayExtra("MEME_BITMAP")
-        if (byteArray != null) {
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            if (bitmap != null) {
-                memeImageView.setImageBitmap(bitmap)
-            } else {
-                Log.e("SecondActivity", "Failed to decode bitmap")
-            }
-        } else {
-            Log.e("SecondActivity", "Byte array is null")
+        byteArray?.let {
+            val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+            memeImageView.setImageBitmap(bitmap)
+        } ?: run {
+            // Handle case when byteArray is null
         }
     }
 }

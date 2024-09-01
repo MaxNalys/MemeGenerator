@@ -1,3 +1,5 @@
+package com.example.memegenerator.api
+
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -18,10 +20,10 @@ object RetrofitClient {
         .build()
 
     private val gson: Gson = GsonBuilder()
-        .setLenient()  // Додаємо support для 'setLenient'
+        .setLenient()
         .create()
 
-    val api: MemeApiService by lazy {
+    val apiService: MemeApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
